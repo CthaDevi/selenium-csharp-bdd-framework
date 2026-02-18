@@ -28,6 +28,9 @@ namespace SeleniumCSharpBDDFramework.Pages
         [FindsBy(How = How.CssSelector, Using = ".inventory_list")]
         private IWebElement InventoryContainer;
 
+        [FindsBy(How = How.CssSelector, Using = "h3[data-test='error']")]
+        private IWebElement ErrorMessage;
+
         // Actions
         public void EnterUsername(string username)
         {
@@ -50,5 +53,10 @@ namespace SeleniumCSharpBDDFramework.Pages
         {
             return InventoryContainer.Displayed;
         }
+        public bool IsErrorMessageDisplayed()
+        {
+           return ErrorMessage.Displayed;
+       }
+
     }
 }
