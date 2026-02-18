@@ -2,12 +2,12 @@ using OpenQA.Selenium;
 using TechTalk.SpecFlow;
 using SeleniumCSharpBDDFramework.Drivers;
 
-namespace SeleniumCSharpBDDFramework
+namespace SeleniumCSharpBDDFramework.StepDefinitions
 {
     [Binding]
     public class Hooks
     {
-        public IWebDriver Driver;
+        public IWebDriver Driver { get; private set; }
         private DriverFactory _driverFactory;
 
         [BeforeScenario]
@@ -20,7 +20,11 @@ namespace SeleniumCSharpBDDFramework
         [AfterScenario]
         public void TearDown()
         {
-            Driver.Quit();
-        }
+            if (Driver != null)
+            {
+                Driver.Quit();
+                Driver.Dispose();
+            }
+            }
     }
 }
