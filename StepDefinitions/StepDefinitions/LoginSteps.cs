@@ -1,44 +1,58 @@
+using NUnit.Framework;
+using OpenQA.Selenium;
 using TechTalk.SpecFlow;
+using SeleniumCSharpBDDFramework.Pages;
 
-namespace SeleniumCSharpBDD.StepDefinitions
+namespace SeleniumCSharpBDDFramework.StepDefinitions
 {
     [Binding]
     public class LoginSteps
     {
-        [Given(@"the application is available")]
-        public void GivenTheApplicationIsAvailable()
+        private readonly IWebDriver _driver;
+        private readonly LoginPage _loginPage;
+
+        public LoginSteps(Hooks hooks)
         {
-            // Placeholder: Application health check or environment validation
+            _driver = hooks.Driver;
+            _loginPage = new LoginPage(_driver);
         }
 
-        [Given(@"the user is on the Login page")]
+        [Given(@"the user is on the login page")]
         public void GivenTheUserIsOnTheLoginPage()
         {
-            // Placeholder: Navigate to login page
+            _driver.Navigate().GoToUrl("https://www.saucedemo.com/");
         }
 
-        [When(@"the user logs in with valid credentials")]
-        public void WhenTheUserLogsInWithValidCredentials()
+        [When(@"the user enters username ""(.*)""")]
+        public void WhenTheUserEntersUsername(string username)
         {
-            // Placeholder: Perform login with valid test data
+            _loginPage.EnterUsername(username);
         }
 
-        [When(@"the user logs in with invalid credentials")]
-        public void WhenTheUserLogsInWithInvalidCredentials()
+        [When(@"the user enters password ""(.*)""")]
+        public void WhenTheUserEntersPassword(string password)
         {
-            // Placeholder: Perform login with invalid test data
+            _loginPage.EnterPassword(password);
         }
 
-        [Then(@"the user should be redirected to the Dashboard")]
-        public void ThenTheUserShouldBeRedirectedToTheDashboard()
+        [When(@"the user clicks on the login button")]
+        public void WhenTheUserClicksOnTheLoginButton()
         {
-            // Placeholder: Assert dashboard is displayed
+            _loginPage.ClickLogin();
+        }
+
+        [Then(@"the user should be redirected to the inventory page")]
+        public void ThenTheUserShouldBeRedirectedToTheInventoryPage()
+        {
+            Assert.IsTrue(_loginPage.IsLoginSuccessful(),
+                "Login failed - Inventory page not displayed");
         }
 
         [Then(@"an authentication error message should be displayed")]
         public void ThenAnAuthenticationErrorMessageShouldBeDisplayed()
         {
-            // Placeholder: Assert error message
+            Assert.IsTrue(_loginPage.IsErrorMessageDisplayed(),
+                "Expected error message was not displayed");
         }
     }
 }
