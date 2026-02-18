@@ -9,8 +9,8 @@ Feature: User Login
 
   @smoke @positive
   Scenario: Successful login with valid credentials
-    When the user enters username "Seetha_QAuser"
-    And the user enters password "Summer@123"
+    When the user enters username "standard_user"
+    And the user enters password "secret_sauce"
     And the user clicks on the login button
     Then the user should be redirected to the inventory page
 
