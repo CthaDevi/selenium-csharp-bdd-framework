@@ -23,17 +23,24 @@ namespace SeleniumCSharpBDDFramework.StepDefinitions
             _driver.Navigate().GoToUrl("https://www.saucedemo.com/");
         }
 
-        [When(@"the user enters username ""(.*)""")]
-        public void WhenTheUserEntersUsername(string username)
-        {
-            _loginPage.EnterUsername(username);
-        }
-
-        [When(@"the user enters password ""(.*)""")]
-        public void WhenTheUserEntersPassword(string password)
-        {
-            _loginPage.EnterPassword(password);
-        }
+          [When(@"the user logs in with valid credentials")]
+           public void WhenTheUserLogsInWithValidCredentials()
+         {
+          string username = ConfigReader.Get("validUsername");
+          string password = ConfigReader.Get("validPassword");
+   
+         _loginPage.EnterUsername(username);
+         _loginPage.EnterPassword(password);
+         _loginPage.ClickLogin();
+         }
+         [When(@"the user logs in with invalid credentials")]
+         public void WhenTheUserLogsInWithInvalidCredentials()
+         {
+         _loginPage.EnterUsername("invalid_user");
+         _loginPage.EnterPassword("wrong_password");
+         _loginPage.ClickLogin();
+         }
+      
 
         [When(@"the user clicks on the login button")]
         public void WhenTheUserClicksOnTheLoginButton()
